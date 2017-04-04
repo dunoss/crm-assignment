@@ -33,9 +33,10 @@ class Contact
   # This method should accept an id as an argument
   # and return the contact who has that id
   def self.find(search_id)
-    @@contacts.select do |account|
+    results = @@contacts.select do |account|
       account.id == search_id
     end
+    results[0]
   end
 
   # This method should allow you to specify
@@ -55,31 +56,34 @@ class Contact
     else
       puts "The attribute does not exist"
     end
-
   end
 
   # This method should work similarly to the find method above
   # but it should allow you to search for a contact using attributes other than id
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
-  def self.find_by(attribute, value)
 
-    case attribute
-    when 'first_name'
-      result = @@contacts.select {|contact| contact.first_name == value}
-      result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
-    when 'last_name'
-      result = @@contacts.select {|contact| contact.last_name == value}
-      result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
-    when 'email'
-      result = @@contacts.select {|contact| contact.email == value}
-      result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
-    when 'note'
-      result = @@contacts.select {|contact| contact.note == value}
-      result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
-    end
 
+  def self.find_by(attribute,value)
+   results = @@contacts.select {|contact| contact.send(attribute.to_sym) == value}
+   results[0]
   end
+  # def self.find_by(attribute, value)
+  #   case attribute
+  #   when 'first_name'
+  #     result = @@contacts.select {|contact| contact.first_name == value}
+  #     result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
+  #   when 'last_name'
+  #     result = @@contacts.select {|contact| contact.last_name == value}
+  #     result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
+  #   when 'email'
+  #     result = @@contacts.select {|contact| contact.email == value}
+  #     result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
+  #   when 'note'
+  #     result = @@contacts.select {|contact| contact.note == value}
+  #     result.length == 0 ? (puts "Sorry, this #{attribute} does not exist") : (return result.first(1))
+  #   end
+  # end
 
   # This method should delete all of the contacts
   def self.delete_all

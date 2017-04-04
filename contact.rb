@@ -11,7 +11,6 @@ class Contact
     @last_name = last_name
     @email = email
     @note = note
-
     @id = @@id
     @@id += 1
   end
@@ -38,6 +37,16 @@ class Contact
     end
     results[0]
   end
+
+# breakout example
+  # def self.find(id)
+  #   @@contacts.each do |contact|
+  #     if contact.id == id
+  #       return contact
+  #   end
+  # end
+  #   return false
+  # end
 
   # This method should allow you to specify
   # 1. which of the contact's attributes you want to update
@@ -87,20 +96,24 @@ class Contact
 
   # This method should delete all of the contacts
   def self.delete_all
-    @@contacts = []
+    @@contacts.clear
+    # @@contacts = []
   end
 
   def full_name
-    "#{@first_name} #{@last_name}"
+    # "#{@first_name} #{@last_name}"
+    "#{first_name} #{last_name}"
   end
 
   # This method should delete the contact
   # HINT: Check the Array class docs for built-in methods that might be useful here
   def delete
-    deleting_id = self.id
-    @@contacts.delete_if do |contact|
-      contact.id == deleting_id
-    end
+    @@contacts.delete(self)
+    return true
+    # deleting_id = self.id
+    # @@contacts.delete_if do |contact|
+    #   contact.id == deleting_id
+    # end
   end
 
   # Feel free to add other methods here, if you need them.
@@ -109,3 +122,13 @@ end
 
 
 # contact = Contact.new('Betty', 'Maker', 'bettymakes@gmail.com', 'Loves Pokemon')
+
+# all_contacts = Contact.all
+# all_contacts.each do |contact|
+#   puts contact.id
+# end
+#
+# contact = Contact.find(20)
+# if contact
+#   puts "Something exists"
+# end

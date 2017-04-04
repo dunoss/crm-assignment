@@ -4,9 +4,11 @@ class Crm
 
   def initialize(name)
     @name = name
+    # @run = true
   end
 
   def main_menu
+    # while @run == true
     while true
       print_main_menu
       user_selected = gets.to_i
@@ -32,6 +34,8 @@ class Crm
     when 4 then display_all_contacts
     when 5 then search_by_attribute
     when 6 then Exit
+    # when 6
+    #   @run = false
     end
   end
 
@@ -54,7 +58,7 @@ class Crm
   def modify_existing_contact
     puts "Please enter the ID of the contact you want to modify:"
     id_entered = gets.chomp.to_i
-    result = Contact.find(id_entered)
+    contact = Contact.find(id_entered)
 
     puts "Below is the list of attributes that can be modified"
     puts "first_name"
@@ -67,30 +71,40 @@ class Crm
     puts "Enter a new value for the attribute"
     new_value = gets.chomp
 
-    result.each {|account| account.update("#{selected_attribute}", "#{new_value}")}
+    # result.tap {|account| account.update("#{selected_attribute}", "#{new_value}")}
+
+    contact.update(selected_attribute, new_value)
+
   end
 
   def delete_contact
 
-    puts "Enter the id of the contact you want to delete:"
-    id_entered = gets.chomp.to_i
-    result = Contact.find(id_entered)
-    result.each do |account|
-      puts "Are you sure you want to delete this account?"
-      print "Name: #{account.full_name};" + " "
-      print "Email address: #{account.email};" + " "
-      print "Note: #{account.note};" + " "
-      puts "ID: #{account.id}" + "  "
-      puts "Please enter yes or no: "
-      answer = gets.chomp
-      if answer == "no"
-        delete_contact
-      else
-        account.delete
-        puts "Contact is deleted"
-      end
-    end
+    puts "What contact id do you want to delete?"
+    contact_id = gets.chomp
+    contact = Contact.find(contact_id)
+    contact.delete
   end
+
+
+  #   puts "Enter the id of the contact you want to delete:"
+  #   id_entered = gets.chomp.to_i
+  #   result = Contact.find(id_entered)
+  #   result.each do |account|
+  #     puts "Are you sure you want to delete this account?"
+  #     print "Name: #{account.full_name};" + " "
+  #     print "Email address: #{account.email};" + " "
+  #     print "Note: #{account.note};" + " "
+  #     puts "ID: #{account.id}" + "  "
+  #     puts "Please enter yes or no: "
+  #     answer = gets.chomp
+  #     if answer == "no"
+  #       delete_contact
+  #     else
+  #       account.delete
+  #       puts "Contact is deleted"
+  #     end
+  #   end
+  # end
 
   def display_all_contacts
     accounts = Contact.all
@@ -121,7 +135,8 @@ class Crm
     end
   end
 
-
 end
 
-# a_crm_app = CRM.new
+Contact.create("paul","lam","dfsdfsdfs","gdfgdfgdfgsdgfsdfgdsfgsdfg")
+crm = Crm.new("crm")
+crm.main_menu
